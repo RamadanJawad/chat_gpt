@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:chat_gpt/core/constant/color.dart';
 import 'package:chat_gpt/core/constant/images.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'text_widget.dart';
 
@@ -20,16 +21,16 @@ class ChatWidget extends StatelessWidget {
     return Column(
       children: [
         Material(
-          color: chatIndex == 0 ? ColorApp.scaffoldBackgroundColor : ColorApp.cardColor,
+          color: chatIndex == 0
+              ? ColorApp.scaffoldBackgroundColor
+              : ColorApp.cardColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
-                  chatIndex == 0
-                      ? ImageUrl.userImage
-                      : ImageUrl.botImage,
+                  chatIndex == 0 ? ImageUrl.userImage : ImageUrl.botImage,
                   height: 30,
                   width: 30,
                 ),
@@ -58,13 +59,11 @@ class ChatWidget extends StatelessWidget {
                                     ),
                                   ]),
                             )
-                          : Text(
-                              msg.trim(),
-                              style: const TextStyle(
+                          : Text(msg.trim(),
+                              style: GoogleFonts.ubuntu(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 16),
-                            ),
+                                  fontSize: 16)),
                 ),
                 chatIndex == 0
                     ? const SizedBox.shrink()
