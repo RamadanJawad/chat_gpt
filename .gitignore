@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-C:\Users\ramad\Downloads\Compressed\flutter-project\chat_gpt\lib\core\api\api_url.dart
+
+lib/core/api/api_url.dart
