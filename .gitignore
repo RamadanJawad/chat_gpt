@@ -45,4 +45,4 @@ app.*.map.json
 /android/app/release
 
 
-lib/core/api/api_url.dart
+lib/core/api/api_url
