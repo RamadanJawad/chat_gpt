@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_gpt/core/api/api_service.dart';
 import 'package:chat_gpt/core/theme/service_theme.dart';
 import 'package:chat_gpt/models/chat_model.dart';
@@ -44,11 +46,50 @@ class ChatController extends GetxController {
     }
     update();
   }
+
   void scrollListToEND() {
     listScrollController.animateTo(
         listScrollController.position.maxScrollExtent,
         duration: const Duration(seconds: 2),
         curve: Curves.easeOut);
+  }
+
+  Future<void> sendMessageFCT({required ChatController controller}) async {
+    if (controller.isTyping) {
+      Get.snackbar("Error", "You cant send multiple messages at a time",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.all(10));
+      return;
+    }
+    if (controller.textEditingController.text.isEmpty) {
+      Get.snackbar("Error", "Please type a message",
+          margin: const EdgeInsets.all(10),
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+      return;
+    }
+    try {
+      String msg = controller.textEditingController.text;
+      controller.isTyping = true;
+      // chatList.add(ChatModel(msg: textEditingController.text, chatIndex: 0));
+      controller.addUserMessage(msg: msg);
+      controller.textEditingController.clear();
+      controller.focusNode.unfocus();
+      await controller.sendMessageAndGetAnswers(
+          msg: msg, chosenModelId: controller.currentModel);
+      controller.update();
+    } catch (error) {
+      log("error $error");
+      Get.snackbar("Error", error.toString(),
+          margin: const EdgeInsets.all(10),
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    } finally {
+      controller.scrollListToEND();
+      controller.isTyping = false;
+      update();
+    }
   }
 
   @override
